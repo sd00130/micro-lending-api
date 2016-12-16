@@ -1,6 +1,5 @@
 package io.fourfinanceit.model;
 
-import com.google.common.base.*;
 import com.google.common.base.Objects;
 import org.joda.time.DateTime;
 
