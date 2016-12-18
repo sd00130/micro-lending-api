@@ -56,7 +56,7 @@ public class LoanControllerITest {
     }
 
     @Test
-    public void shouldFailWithMaxAmount() throws Exception {
+    public void shouldFailWithMaxAmountAndRiskyHours() throws Exception {
         client.applyToLoanWith(APPLICATION_COMMAND_MAX_AMOUNT).andExpect(status().is4xxClientError());
     }
 
@@ -69,7 +69,7 @@ public class LoanControllerITest {
     }
 
     @Test
-    public void shouldExtendLoan() throws Exception {
+    public void shouldApplyToAndExtendLoan() throws Exception {
         MvcResult result = client.applyToLoanWith(APPLICATION_COMMAND).andExpect(status().isCreated()).andReturn();
 
         LoanDto loan = mapper.readValue(result.getResponse().getContentAsString(), LoanDto.class);

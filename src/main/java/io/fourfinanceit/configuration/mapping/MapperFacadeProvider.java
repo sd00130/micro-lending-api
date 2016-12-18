@@ -20,8 +20,8 @@ public class MapperFacadeProvider {
     public MapperFactory mapperFactory() {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.classMap(Loan.class, LoanDto.class)
-                .field("range.start", "start")
-                .field("range.end", "end")
+                .field("term.start", "start")
+                .field("term.days", "days")
                 .field("customerEmail", "customer")
                 .byDefault()
                 .register();

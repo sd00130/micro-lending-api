@@ -23,8 +23,7 @@ public class LoanDto {
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private Date start;
 
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
-    private Date end;
+    private int days;
 
     private String customer;
 
@@ -59,12 +58,12 @@ public class LoanDto {
         this.start = start;
     }
 
-    public Date getEnd() {
-        return end;
+    public int getDays() {
+        return days;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setDays(int days) {
+        this.days = days;
     }
 
     public String getCustomer() {

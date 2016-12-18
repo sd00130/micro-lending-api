@@ -13,6 +13,6 @@ public interface LoanRepository extends CrudRepository<Loan, Long> {
 
     List<Loan> findByCustomerEmail(String email);
 
-    List<Loan> findByRangeStartBetweenAndIpAddress(Date startOfTheDay, Date endOfTheDay, String ipAddress);
+    List<Loan> findByTermStartBetweenAndIpAddress(Date startOfTheDay, Date endOfTheDay, String ipAddress);
 
 }

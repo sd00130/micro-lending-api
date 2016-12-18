@@ -1,7 +1,7 @@
 package io.fourfinanceit;
 
 import io.fourfinanceit.configuration.mapping.MapperFacadeProvider;
-import io.fourfinanceit.model.DateTimeRange;
+import io.fourfinanceit.model.Term;
 import io.fourfinanceit.model.Loan;
 import io.fourfinanceit.query.LoanDto;
 import org.joda.time.DateTime;
@@ -30,7 +30,7 @@ public class LoanToDtoMappingTest {
     public void mappingTest() {
         DateTime now = DateTime.now();
         Loan loan = new Loan(new BigDecimal(200.00),
-                            new DateTimeRange(now.toDate(), 30),
+                            new Term(now.toDate(), 30),
                             "192.168.0.3",
                             "loantaker@fourfinance.it");
         loan.extend(INTEREST_FACTOR);
@@ -38,13 +38,15 @@ public class LoanToDtoMappingTest {
         loan.extend(INTEREST_FACTOR);
         loan.extend(INTEREST_FACTOR);
 
+        loan.calculateExtensionFees();
+
         LoanDto loanDto = mapperFacadeProvider.mapperFacade().map(loan, LoanDto.class);
 
         assertThat(loanDto.getCustomer()).isEqualTo("loantaker@fourfinance.it");
         assertThat(loanDto.getInitialAmount()).isEqualTo(new BigDecimal(200.00));
         assertThat(loanDto.getExtensions()).hasSize(4);
         assertThat(loanDto.getStart()).isEqualTo(now.toDate());
-        assertThat(loanDto.getEnd()).isEqualTo(now.plusDays(30).withTimeAtStartOfDay().plusDays(1).toDate());
+        assertThat(loanDto.getDays()).isEqualTo(30);
         assertThat(loanDto.getFinalAmount().compareTo(BigDecimal.valueOf(212.000))).isEqualTo(0);
     }
 }

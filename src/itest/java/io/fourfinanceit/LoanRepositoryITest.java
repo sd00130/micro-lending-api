@@ -1,6 +1,6 @@
 package io.fourfinanceit;
 
-import io.fourfinanceit.model.DateTimeRange;
+import io.fourfinanceit.model.Term;
 import io.fourfinanceit.model.Loan;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -32,8 +32,8 @@ public class LoanRepositoryITest {
 
     @Before
     public void setUp() {
-        Loan loan = new Loan(new BigDecimal(10.00), new DateTimeRange(new Date(), 10), "192.168.0.2", "loantaker@fourfinance.it");
-        Loan anotherLoan = new Loan(new BigDecimal(10.00), new DateTimeRange(new Date(), 10), "192.168.0.3", "loangiver@fourfinance.it");
+        Loan loan = new Loan(new BigDecimal(10.00), new Term(new Date(), 10), "192.168.0.2", "loantaker@fourfinance.it");
+        Loan anotherLoan = new Loan(new BigDecimal(10.00), new Term(new Date(), 10), "192.168.0.3", "loangiver@fourfinance.it");
         loanRepository.save(Arrays.asList(loan, anotherLoan));
     }
 
@@ -47,10 +47,10 @@ public class LoanRepositoryITest {
     @Test
     public void shouldGetByDateAndIPTest() {
         DateTime now = DateTime.now();
-        Loan loanBefore = new Loan(new BigDecimal(20.00), new DateTimeRange(now.minusDays(3).toDate(), 30), "192.168.0.3", "loantaker@fourfinance.it");
-        Loan loanAfter = new Loan(new BigDecimal(30.00), new DateTimeRange(now.plusDays(3).toDate(), 50), "192.168.0.1", "loantaker@fourfinance.it");
+        Loan loanBefore = new Loan(new BigDecimal(20.00), new Term(now.minusDays(3).toDate(), 30), "192.168.0.3", "loantaker@fourfinance.it");
+        Loan loanAfter = new Loan(new BigDecimal(30.00), new Term(now.plusDays(3).toDate(), 50), "192.168.0.1", "loantaker@fourfinance.it");
         loanRepository.save(Arrays.asList(loanBefore, loanAfter));
-        List<Loan> loans = loanRepository.findByRangeStartBetweenAndIpAddress(now.withTimeAtStartOfDay().toDate(), now.plusDays(1).toDate(), "192.168.0.3");
+        List<Loan> loans = loanRepository.findByTermStartBetweenAndIpAddress(now.withTimeAtStartOfDay().toDate(), now.plusDays(1).toDate(), "192.168.0.3");
         assertThat(loans).hasSize(1);
     }
 
